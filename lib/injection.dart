@@ -14,19 +14,26 @@ void initGetIt() {
 }
 
 Dio createAndSetUpDio() {
-  Dio dio = Dio();
-
-  dio
-    ..options.connectTimeout = 10 * 1000
-    ..options.receiveTimeout = 10 * 1000;
+  Dio dio = Dio(BaseOptions(
+    baseUrl: 'https://gorest.co.in/public/v2/',
+    connectTimeout: const Duration(seconds: 10),
+    receiveTimeout: const Duration(seconds: 10),
+    sendTimeout: const Duration(seconds: 10),
+    validateStatus: (status) {
+      return status! < 500;
+    },
+  ));
 
   dio.interceptors.add(LogInterceptor(
       request: true,
-      requestHeader: false,
-      responseHeader: false,
+      requestHeader: true,
+      responseHeader: true,
       responseBody: true,
       error: true,
-      requestBody: true));
+      requestBody: true,
+      logPrint: (object) {
+        print('Dio Log: $object');
+      }));
 
   return dio;
 }

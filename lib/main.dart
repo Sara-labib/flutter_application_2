@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: BlocProvider(
         create: (context) => getIt<MyCubit>(),
-        child: HomeScreen(),
+        child: const HomeScreen(),
       ),
     );
   }
